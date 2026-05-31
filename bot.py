@@ -1,5 +1,8 @@
 #8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34
 from telegram import Update
+from telegram import KeyboardButton
+from telegram import ReplyKeyboardMarkup
+
 from telegram.ext import (
     ApplicationBuilder,
     ContextTypes,
@@ -10,8 +13,22 @@ from telegram.ext import (
 
 TOKEN = "8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34"
 
+
+keyboard = [
+     [
+          KeyboardButton("راهنما"),
+          KeyboardButton("درباره ما")
+     ]
+]
+
+markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+
 async def start (update: Update ,context: ContextTypes.DEFAULT_TYPE ) :
-    await update.message.reply_text("سلام به ربات من خوش آمدی")
+    await update.message.reply_text(
+         "سلام به ربات من خوش آمدی",
+         reply_markup = markup
+                                    )
 
 async def help_command (update: Update ,context: ContextTypes.DEFAULT_TYPE) :
     await update.message.reply_text("""
@@ -20,9 +37,22 @@ async def help_command (update: Update ,context: ContextTypes.DEFAULT_TYPE) :
     /help
     """)
 
-async def echo (update: Update ,context: ContextTypes.DEFAULT_TYPE) :
+async def menu_handler (update: Update ,context: ContextTypes.DEFAULT_TYPE) :
        text = update.message.text
-       await update.message.reply_text(f"تو گفتی : {text}")
+       if text == "راهنما" :
+            await update.message.reply_text("""
+                دستورات:
+                /start
+                /help
+            """)
+
+       elif text == "درباره ما" :
+            await update.message.reply_text("این ربات برای آموزش ساخته شده است.")
+
+       else :
+            await update.message.reply_text(f"توگفتی: {text}")
+        
+
 
 
 
@@ -37,7 +67,7 @@ app.add_handler(
 )
 
 app.add_handler(
-     MessageHandler(filters.TEXT & ~filters.COMMAND, echo)
+     MessageHandler(filters.TEXT & ~filters.COMMAND, menu_handler)
 )
 print("ربات روشن شد...")
 
