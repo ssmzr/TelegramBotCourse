@@ -12,7 +12,7 @@ from telegram.ext import (
 
 TOKEN = "8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34"
 
-NAME, AGE, CITY = range(3)
+NAME, FAMILY, AGE ,CITY = range(4)
 
 
 async def start (update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -20,11 +20,21 @@ async def start (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     return NAME
 
+
+
 async def get_name (update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["name"] = update.message.text
     await update.message.reply_text("چند سالته؟ ")
 
+    return FAMILY
+
+
+async def get_family (update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data["family"] = update.message.text
+    await update.message.reply_text("فامیلت؟ ")
+
     return AGE
+
 
 async def get_age (update: Update, context: ContextTypes.DEFAULT_TYPE):
     
@@ -33,6 +43,7 @@ async def get_age (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     return CITY
 
+
 async def get_city (update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["city"] = update.message.text
     await update.message.reply_text(
@@ -40,6 +51,7 @@ async def get_city (update: Update, context: ContextTypes.DEFAULT_TYPE):
 ✅ ثبت نام با موفقیت انجام شد
 
 👤 نام: {context.user_data["name"]}
+👤 فامیلی: {context.user_data["name"]}
 🎂 سن: {context.user_data["age"]}
 🏙 شهر: {context.user_data["city"]}
 """
@@ -57,6 +69,10 @@ conv_handler = ConversationHandler(
     states = { 
         NAME:[
             MessageHandler(filters.TEXT & ~filters.COMMAND, get_name)
+        ],
+
+        FAMILY:[
+        MessageHandler(filters.TEXT & ~filters.COMMAND, get_family)
         ],
 
         AGE: [
