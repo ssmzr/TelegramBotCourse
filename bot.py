@@ -54,13 +54,13 @@ conv_handler = ConversationHandler(
         CommandHandler("start", start)
     ],
 
-    states = {
+    states = { 
         NAME:[
             MessageHandler(filters.TEXT & ~filters.COMMAND, get_name)
         ],
 
         AGE: [
-            MessageHandler(filters.Text & ~filters.COMMAND, get_age)
+            MessageHandler(filters.TEXT & ~filters.COMMAND, get_age)
 
         ],
         
