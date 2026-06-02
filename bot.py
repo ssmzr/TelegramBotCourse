@@ -23,41 +23,77 @@ async def start (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def get_name (update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["name"] = update.message.text
-    await update.message.reply_text("فامیلت؟ ")
+    name = update.message.text
+    if name.isalpha :
+         context.user_data["name"] = name
+         await update.message.reply_text("فامیلت؟ ")
 
-    return FAMILY
+         return FAMILY
+    
+    else :
+        await update.message.reply_text("برای وارد کردن اسم فقط از حروف الفبا استفاده کنید")
+
+        return NAME
+
+
 
 
 async def get_family (update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["family"] = update.message.text
-    await update.message.reply_text("چند سالته؟ ")
+    family = update.message.text
+    if family.isalpha :
+         context.user_data["family"] = family
+         await update.message.reply_text("چند شالته ؟")
 
-    return AGE
+         return AGE
+    
+    else :
+        await update.message.reply_text("برای وارد کردن فامیلی فقط از حروف الفبا استفاده کنید")
+
+        return FAMILY
 
 
 async def get_age (update: Update, context: ContextTypes.DEFAULT_TYPE):
-    
-    context.user_data["age"] = update.message.text
-    await update.message.reply_text("شهرت چیه؟ ")
+    age = update.message.text
+    if age.isdigit and  0 < int(age) < 120 :
+         context.user_data["age"] = age
+         await update.message.reply_text(" اسم شهر؟")
 
-    return CITY
+         return CITY
+    
+    else :
+        await update.message.reply_text("سن باید در بازه مناسب و فقط از اعداد باشد")
+
+        return AGE
 
 
 async def get_city (update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["city"] = update.message.text
-    await update.message.reply_text(
-    f"""
-✅ ثبت نام با موفقیت انجام شد
+    city = update.message.text
+    if city.isalpha :
+        context.user_data["city"] = update.message.text
+        await update.message.reply_text(
+            f"""
+        ✅ ثبت نام با موفقیت انجام شد
 
-👤 نام: {context.user_data["name"]}
-👤 فامیلی: {context.user_data["family"]}
-🎂 سن: {context.user_data["age"]}
-🏙 شهر: {context.user_data["city"]}
-"""
-)
+        👤 نام: {context.user_data["name"]}
+        👤 فامیلی: {context.user_data["family"]}
+        🎂 سن: {context.user_data["age"]}
+        🏙 شهر: {context.user_data["city"]}
+        """
+        )
 
-    return ConversationHandler.END
+        return ConversationHandler.END
+
+    else:
+      await update.message.reply_text("اسم شهر فقط باید از حروف الفبا تشکیل شده باشد")
+
+      return CITY
+
+       
+ 
+
+
+
+    
 
 app = ApplicationBuilder().token(TOKEN).build()
 
