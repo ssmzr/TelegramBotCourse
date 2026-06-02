@@ -1,5 +1,7 @@
-#8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34
+
 from telegram import Update
+from telegram import KeyboardButton
+from telegram import ReplyKeyboardMarkup
 
 from telegram.ext import (
     filters,
@@ -12,16 +14,48 @@ from telegram.ext import (
 
 TOKEN = "8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34"
 
+keyboard = [
+    [KeyboardButton("ثبت نام")],
+    [KeyboardButton("راهنما")],
+    [KeyboardButton("درباره ما")]
+]
+markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
 NAME, FAMILY, AGE ,CITY = range(4)
 
 
-async def start (update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("اسمت چیه ؟")
 
-    return NAME
+async def start(update: Update,context: ContextTypes.DEFAULT_TYPE):
+
+    await update.message.reply_text("به ربات خوش آمدی", reply_markup=markup)
+
+
+async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+    if text == "راهنما":
+        await update.message.reply_text("""
+        دستورات:
+
+        /start
+        /cancel
+
+        """)
+
+    elif text == "درباره ما":
+        await update.message.reply_text("این ربات برای تمرین تلگرام بات ساخته شده است.")
+
+    
+    else:
+        await update.message.reply_text(
+            "لطفاً یکی از گزینه‌های منو را انتخاب کنید."
+        )
 
 
 
+async def start_conv (update: Update, context: ContextTypes.DEFAULT_TYPE): 
+        await update.message.reply_text("اسمت چیه؟")
+        return NAME
+        
 async def get_name (update: Update, context: ContextTypes.DEFAULT_TYPE):
     name = update.message.text
     if name.isalpha() :
@@ -88,7 +122,10 @@ async def get_city (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
       return CITY
 
-       
+
+async def cancel (update: Update, context: ContextTypes.DEFAULT_TYPE):
+       await update.message.reply_text("❌ ثبت نام لغو شد.")
+       return ConversationHandler.END      
  
 
 
@@ -99,7 +136,7 @@ app = ApplicationBuilder().token(TOKEN).build()
 
 conv_handler = ConversationHandler(
     entry_points=[
-        CommandHandler("start", start)
+        MessageHandler(filters.Regex("^ثبت نام$"),start_conv)
     ],
 
     states = { 
@@ -123,10 +160,30 @@ conv_handler = ConversationHandler(
 
     },
 
-    fallbacks= []
+    fallbacks= [
+        CommandHandler("cancel", cancel)
+    ]
+)
+
+
+
+
+app.add_handler(
+    CommandHandler("start", start)
 )
 
 app.add_handler(conv_handler)
+
+app.add_handler(
+    MessageHandler(
+        filters.TEXT & ~filters.COMMAND,
+        menu_handler
+    )
+)
+
+
+
+
 print("ربات روشن شد...")
 app.run_polling()
 
