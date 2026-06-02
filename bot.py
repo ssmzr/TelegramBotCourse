@@ -24,14 +24,14 @@ async def start (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_name (update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["name"] = update.message.text
-    await update.message.reply_text("چند سالته؟ ")
+    await update.message.reply_text("فامیلت؟ ")
 
     return FAMILY
 
 
 async def get_family (update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["family"] = update.message.text
-    await update.message.reply_text("فامیلت؟ ")
+    await update.message.reply_text("چند سالته؟ ")
 
     return AGE
 
@@ -51,7 +51,7 @@ async def get_city (update: Update, context: ContextTypes.DEFAULT_TYPE):
 ✅ ثبت نام با موفقیت انجام شد
 
 👤 نام: {context.user_data["name"]}
-👤 فامیلی: {context.user_data["name"]}
+👤 فامیلی: {context.user_data["family"]}
 🎂 سن: {context.user_data["age"]}
 🏙 شهر: {context.user_data["city"]}
 """
