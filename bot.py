@@ -40,7 +40,7 @@ async def get_name (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_family (update: Update, context: ContextTypes.DEFAULT_TYPE):
     family = update.message.text
-    if family().isalpha :
+    if family.isalpha() :
          context.user_data["family"] = family
          await update.message.reply_text("چند سالته ؟")
 
