@@ -24,7 +24,7 @@ async def start (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_name (update: Update, context: ContextTypes.DEFAULT_TYPE):
     name = update.message.text
-    if name.isalpha :
+    if name.isalpha() :
          context.user_data["name"] = name
          await update.message.reply_text("فامیلت؟ ")
 
@@ -40,9 +40,9 @@ async def get_name (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_family (update: Update, context: ContextTypes.DEFAULT_TYPE):
     family = update.message.text
-    if family.isalpha :
+    if family().isalpha :
          context.user_data["family"] = family
-         await update.message.reply_text("چند شالته ؟")
+         await update.message.reply_text("چند سالته ؟")
 
          return AGE
     
@@ -54,7 +54,7 @@ async def get_family (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_age (update: Update, context: ContextTypes.DEFAULT_TYPE):
     age = update.message.text
-    if age.isdigit and  0 < int(age) < 120 :
+    if age.isdigit() and  0 < int(age) < 120 :
          context.user_data["age"] = age
          await update.message.reply_text(" اسم شهر؟")
 
@@ -68,8 +68,8 @@ async def get_age (update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_city (update: Update, context: ContextTypes.DEFAULT_TYPE):
     city = update.message.text
-    if city.isalpha :
-        context.user_data["city"] = update.message.text
+    if city.isalpha() :
+        context.user_data["city"] = city
         await update.message.reply_text(
             f"""
         ✅ ثبت نام با موفقیت انجام شد
