@@ -25,7 +25,7 @@ markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["tasks"] = []
-        await update.message.reply_text(reply_markup=markup)
+        await update.message.reply_text(" ",reply_markup=markup)
 
 
 
