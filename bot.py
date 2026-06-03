@@ -46,14 +46,10 @@ async def get_num1 (update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_op (update: Update, context: ContextTypes.DEFAULT_TYPE) :
     query = update.callback_query
     await query.answer()
-    if query.data == "+" or "-" or "*" or "/" :
-        context.user_data["op"] = query.data
-        await update.message.reply_text("عدد دوم را وارد کنید :")
-        return NUM2
-    else:
-        await update.message.reply_text("عملیات  انتخاب شده صحیح نیست دوباره انتخاب کنید")
-        return OP
-    
+    context.user_data["op"] = query.data
+    await update.message.reply_text("عدد دوم را وارد کنید :")
+    return NUM2
+
 
 
 async def get_num2 (update: Update, context: ContextTypes.DEFAULT_TYPE):
