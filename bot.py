@@ -14,99 +14,253 @@ from telegram.ext import (
 
 TOKEN = "8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34"
 
-keyboard = [
+keyboard1 = [
     [
-        InlineKeyboardButton("جمع", callback_data="+"),
-        InlineKeyboardButton("تفریق", callback_data="-")
+        InlineKeyboardButton("دنیس ریچی", callback_data="1"),
+        InlineKeyboardButton("جیمز گاسلینگ", callback_data="2")
     ],
     [
-        InlineKeyboardButton("ضرب", callback_data="*"),
-        InlineKeyboardButton("تقسیم", callback_data="/")
+        InlineKeyboardButton("گویدو ون روسوم", callback_data="3"),
+        InlineKeyboardButton("بیارن استراستروپ", callback_data="4")
     ]
 ]
 
-markup = InlineKeyboardMarkup(keyboard)
 
-NUM1, OP, NUM2 = range(3)
-
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("عدد اول را وارد کنید:")
-    return NUM1
-
-
-async def get_num1(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    num1 = update.message.text
-
-    if num1.isdigit():
-        context.user_data["num1"] = int(num1)
-
-        await update.message.reply_text(
-            "نوع عملیات را انتخاب کنید:",
-            reply_markup=markup
-        )
-
-        return OP
-
-    await update.message.reply_text("لطفاً فقط عدد وارد کنید")
-    return NUM1
+keyboard2 = [
+    [
+        InlineKeyboardButton("20", callback_data="1"),
+        InlineKeyboardButton("14", callback_data="2")
+    ],
+    [
+        InlineKeyboardButton("24", callback_data="3"),
+        InlineKeyboardButton("10", callback_data="4")
+    ]
+]
 
 
-async def get_op(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
+keyboard3 = [
+    [
+        InlineKeyboardButton("int", callback_data="1"),
+        InlineKeyboardButton("float", callback_data="2")
+    ],
+    [
+        InlineKeyboardButton("list", callback_data="3"),
+        InlineKeyboardButton("bool", callback_data="4")
+    ]
+]
 
-    context.user_data["op"] = query.data
 
-    await query.message.reply_text(
-        "عدد دوم را وارد کنید:"
-    )
+keyboard4 = [
+    [
+        InlineKeyboardButton("func", callback_data="1"),
+        InlineKeyboardButton("define", callback_data="2")
+    ],
+    [
+        InlineKeyboardButton("method", callback_data="3"),
+        InlineKeyboardButton("def", callback_data="4")
+    ]
+]
 
-    return NUM2
+
+keyboard5 = [
+    [
+        InlineKeyboardButton("=", callback_data="1"),
+        InlineKeyboardButton("==", callback_data="2")
+    ],
+    [
+        InlineKeyboardButton("===", callback_data="3"),
+        InlineKeyboardButton("=:", callback_data="4")
+    ]
+]
 
 
-async def get_num2(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    num2 = update.message.text
+markup1 = InlineKeyboardMarkup(keyboard1)
+markup2 = InlineKeyboardMarkup(keyboard2)
+markup3 = InlineKeyboardMarkup(keyboard3)
+markup4 = InlineKeyboardMarkup(keyboard4)
+markup5 = InlineKeyboardMarkup(keyboard5)
 
-    if not num2.isdigit():
-        await update.message.reply_text(
-            "لطفاً فقط عدد وارد کنید"
-        )
-        return NUM2
+QUESTION1, QUESTION2, QUESTION3, QUESTION4, QUESTION5 = range(5)
 
-    context.user_data["num2"] = int(num2)
+async def start (update: Update,context: ContextTypes.DEFAULT_TYPE):
+    int(context.user_data["score"] ) = 0
+    await update.message.reply_text("پایتون توسط چه کسی ساخته شد؟",reply_markup=markup1)
 
-    num1 = context.user_data["num1"]
-    num2 = context.user_data["num2"]
-    op = context.user_data["op"]
+    return QUESTION1
 
-    if op == "+":
-        result = num1 + num2
 
-    elif op == "-":
-        result = num1 - num2
 
-    elif op == "*":
-        result = num1 * num2
+async def get_answer1(update: Update,context: ContextTypes.DEFAULT_TYPE):
+     query = update.callback_query
+     await query.answer()
 
-    elif op == "/":
-        if num2 == 0:
-            result = "تقسیم بر صفر امکان‌پذیر نیست"
-        else:
-            result = num1 / num2
+     if query.data == "3" :
+          int(context.user_data["score"]) +=1
+          await query.message.reply_text("✅ پاسخ صحیح")
+          await query.message.reply_text("print(2 + 3 * 4) --> ?",reply_markup=markup2)
+          return QUESTION2
 
-    await update.message.reply_text(
-        f"نتیجه محاسبه: {result}"
-    )
+     else :
+        await query.message.reply_text("❌ پاسخ اشتباه")
+        await query.message.reply_text("print(2 + 3 * 4) --> ?",reply_markup=markup2)
+        return QUESTION2
+     
 
-    return ConversationHandler.END
 
+async def get_answer2(update: Update,context: ContextTypes.DEFAULT_TYPE):
+     query = update.callback_query
+     await query.answer()
+
+     if query.data == "2" :
+          int(context.user_data["score"]) +=1
+          await query.message.reply_text("✅ پاسخ صحیح")
+          await query.message.reply_text("کدام نوع داده برای ذخیره چند مقدار استفاده می‌شود؟",reply_markup=markup3)
+          return QUESTION3
+
+     else :
+        await query.message.reply_text("❌ پاسخ اشتباه")
+        await query.message.reply_text("کدام نوع داده برای ذخیره چند مقدار استفاده می‌شود؟",reply_markup=markup3)
+        return QUESTION3
+
+
+
+
+async def get_answer3(update: Update,context: ContextTypes.DEFAULT_TYPE):
+     query = update.callback_query
+     await query.answer()
+
+     if query.data == "3" :
+          int(context.user_data["score"]) +=1
+          await query.message.reply_text("✅ پاسخ صحیح")
+          await query.message.reply_text("برای تعریف تابع در پایتون از چه کلمه‌ای استفاده می‌شود؟",reply_markup=markup4)
+          return QUESTION4
+
+     else :
+        await query.message.reply_text("❌ پاسخ اشتباه")
+        await query.message.reply_text("برای تعریف تابع در پایتون از چه کلمه‌ای استفاده می‌شود؟",reply_markup=markup4)
+        return QUESTION4
+     
+
+
+
+async def get_answer4(update: Update,context: ContextTypes.DEFAULT_TYPE):
+     query = update.callback_query
+     await query.answer()
+
+     if query.data == "4" :
+          int(context.user_data["score"]) +=1
+          await query.message.reply_text("✅ پاسخ صحیح")
+          await query.message.reply_text("کدام عملگر برای مقایسه برابری استفاده می‌شود؟",reply_markup=markup5)
+          return QUESTION5
+
+     else :
+        await query.message.reply_text("❌ پاسخ اشتباه")
+        await query.message.reply_text("کدام عملگر برای مقایسه برابری استفاده می‌شود؟",reply_markup=markup5)
+        return QUESTION5
+     
+
+
+
+async def get_answer5(update: Update,context: ContextTypes.DEFAULT_TYPE):
+     query = update.callback_query
+     await query.answer()
+
+     if query.data == "2" :
+          int(context.user_data["score"]) +=1
+          await query.message.reply_text("✅ پاسخ صحیح")
+          score = int(context.user_data["score"])
+
+          if score == 5 :
+              await query.message.reply_text("""
+                آزمون تمام شد
+
+                امتیاز شما:
+                {score}
+                از 5 نمره
+                                                            
+                🏆 عالی
+
+                """)
+              
+          
+          if score == 3 or score == 4 :
+              await query.message.reply_text("""
+                آزمون تمام شد
+
+                امتیاز شما:
+                {score}
+                از 5 نمره
+                                                            
+                👍 خوب
+
+                """)
+          
+              
+          if score < 3 :
+              await query.message.reply_text("""
+                آزمون تمام شد
+
+                امتیاز شما:
+                {score}
+                از 5 نمره
+                                                            
+                📚 نیاز به تمرین بیشتر
+
+                """)
+          return ConversationHandler.END  
+
+
+          
+
+     else :
+        await query.message.reply_text("❌ پاسخ اشتباه")
+        score = int(context.user_data["score"])
+
+        if score == 5 :
+            await query.message.reply_text("""
+            آزمون تمام شد
+
+            امتیاز شما:
+            {score}
+            از 5 نمره
+                                                        
+            🏆 عالی
+
+            """)
+            
+        
+        if score == 3 or score == 4 :
+            await query.message.reply_text("""
+            آزمون تمام شد
+
+            امتیاز شما:
+            {score}
+            از 5 نمره
+                                                        
+            👍 خوب
+
+            """)
+            
+        if score < 3 :
+            await query.message.reply_text("""
+            آزمون تمام شد
+
+            امتیاز شما:
+            {score}
+            از 5 نمره
+                                                        
+            📚 نیاز به تمرین بیشتر
+
+            """)
+        return ConversationHandler.END
+     
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "عملیات لغو شد."
     )
     return ConversationHandler.END
+
 
 
 app = ApplicationBuilder().token(TOKEN).build()
@@ -117,22 +271,24 @@ conv_handler = ConversationHandler(
     ],
 
     states={
-        NUM1: [
-            MessageHandler(
-                filters.TEXT & ~filters.COMMAND,
-                get_num1
-            )
+        QUESTION1 :[
+            CallbackQueryHandler(get_answer1)
         ],
 
-        OP: [
-            CallbackQueryHandler(get_op)
+         QUESTION2 :[
+            CallbackQueryHandler(get_answer2)
         ],
 
-        NUM2: [
-            MessageHandler(
-                filters.TEXT & ~filters.COMMAND,
-                get_num2
-            )
+         QUESTION3 :[
+            CallbackQueryHandler(get_answer3)
+        ],
+
+         QUESTION4 :[
+            CallbackQueryHandler(get_answer4)
+        ],
+
+         QUESTION5 :[
+            CallbackQueryHandler(get_answer5)
         ]
     },
 
@@ -142,6 +298,8 @@ conv_handler = ConversationHandler(
 )
 
 app.add_handler(conv_handler)
+
+
 
 print("ربات روشن شد...")
 app.run_polling()
