@@ -46,10 +46,14 @@ async def get_num1 (update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_op (update: Update, context: ContextTypes.DEFAULT_TYPE) :
     query = update.callback_query
     await query.answer()
-    context.user_data["op"] = query.data
-    await update.message.reply_text("عدد دوم را وارد کنید :")
-    return NUM2
-
+    if query.data in ["+", "-", "*", "/"]:
+        context.user_data["op"] = query.data
+        await query.message.reply_text("عدد دوم را وارد کنید :")
+        return NUM2
+    else:
+        await query.message.reply_text("عملیات  انتخاب شده صحیح نیست دوباره انتخاب کنید")
+        return OP
+    
 
 
 async def get_num2 (update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -62,10 +66,13 @@ async def get_num2 (update: Update, context: ContextTypes.DEFAULT_TYPE):
                 result = context.user_data["num1"] + context.user_data["num2"]
             case("-"):
                 result = context.user_data["num1"] - context.user_data["num2"]
-            case("+"):
+            case("*"):
                 result = context.user_data["num1"] * context.user_data["num2"]
-            case("+"):
-                result = context.user_data["num1"] / context.user_data["num2"]
+            case("/"):
+                if context.user_data["num2"] != 0:
+                    result = context.user_data["num1"] / context.user_data["num2"]
+                else:
+                    result = "تقسیم بر صفر امکان پذیر نیست"
 
         await update.message.reply_text(f"نتیجه محاسبه : {result}")
         return ConversationHandler.END
@@ -92,10 +99,6 @@ conv_handler = ConversationHandler(
     states={
         NUM1: [
             MessageHandler(filters.TEXT & ~filters.COMMAND, get_num1)
-        ],
-
-        OP: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, get_op)
         ],
 
         NUM2: [
