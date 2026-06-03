@@ -12,7 +12,7 @@ from telegram.ext import (
     filters
 )
 
-TOKEN = "YOUR_TOKEN"
+TOKEN = "8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34"
 
 keyboard = [
     [
