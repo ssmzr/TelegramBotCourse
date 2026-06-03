@@ -83,7 +83,7 @@ markup5 = InlineKeyboardMarkup(keyboard5)
 QUESTION1, QUESTION2, QUESTION3, QUESTION4, QUESTION5 = range(5)
 
 async def start (update: Update,context: ContextTypes.DEFAULT_TYPE):
-    int(context.user_data["score"] ) = 0
+    context.user_data["score"]  = 0
     await update.message.reply_text("پایتون توسط چه کسی ساخته شد؟",reply_markup=markup1)
 
     return QUESTION1
@@ -95,7 +95,7 @@ async def get_answer1(update: Update,context: ContextTypes.DEFAULT_TYPE):
      await query.answer()
 
      if query.data == "3" :
-          int(context.user_data["score"]) +=1
+          context.user_data["score"] +=1
           await query.message.reply_text("✅ پاسخ صحیح")
           await query.message.reply_text("print(2 + 3 * 4) --> ?",reply_markup=markup2)
           return QUESTION2
@@ -112,7 +112,7 @@ async def get_answer2(update: Update,context: ContextTypes.DEFAULT_TYPE):
      await query.answer()
 
      if query.data == "2" :
-          int(context.user_data["score"]) +=1
+          context.user_data["score"] +=1
           await query.message.reply_text("✅ پاسخ صحیح")
           await query.message.reply_text("کدام نوع داده برای ذخیره چند مقدار استفاده می‌شود؟",reply_markup=markup3)
           return QUESTION3
@@ -130,7 +130,7 @@ async def get_answer3(update: Update,context: ContextTypes.DEFAULT_TYPE):
      await query.answer()
 
      if query.data == "3" :
-          int(context.user_data["score"]) +=1
+          context.user_data["score"] +=1
           await query.message.reply_text("✅ پاسخ صحیح")
           await query.message.reply_text("برای تعریف تابع در پایتون از چه کلمه‌ای استفاده می‌شود؟",reply_markup=markup4)
           return QUESTION4
@@ -148,7 +148,7 @@ async def get_answer4(update: Update,context: ContextTypes.DEFAULT_TYPE):
      await query.answer()
 
      if query.data == "4" :
-          int(context.user_data["score"]) +=1
+          context.user_data["score"] +=1
           await query.message.reply_text("✅ پاسخ صحیح")
           await query.message.reply_text("کدام عملگر برای مقایسه برابری استفاده می‌شود؟",reply_markup=markup5)
           return QUESTION5
@@ -166,12 +166,12 @@ async def get_answer5(update: Update,context: ContextTypes.DEFAULT_TYPE):
      await query.answer()
 
      if query.data == "2" :
-          int(context.user_data["score"]) +=1
+          context.user_data["score"] +=1
           await query.message.reply_text("✅ پاسخ صحیح")
           score = int(context.user_data["score"])
 
           if score == 5 :
-              await query.message.reply_text("""
+              await query.message.reply_text(f"""
                 آزمون تمام شد
 
                 امتیاز شما:
@@ -183,8 +183,8 @@ async def get_answer5(update: Update,context: ContextTypes.DEFAULT_TYPE):
                 """)
               
           
-          if score == 3 or score == 4 :
-              await query.message.reply_text("""
+          if score in [3, 4]:
+              await query.message.reply_text(f"""
                 آزمون تمام شد
 
                 امتیاز شما:
