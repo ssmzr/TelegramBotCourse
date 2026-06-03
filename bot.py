@@ -46,8 +46,8 @@ async def get_num1 (update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_op (update: Update, context: ContextTypes.DEFAULT_TYPE) :
     query = update.callback_query
     await query.answer()
-    if query == "+" or "-" or "*" or "/" :
-        context.user_data["op"] = query
+    if query.data == "+" or "-" or "*" or "/" :
+        context.user_data["op"] = query.data
         await update.message.reply_text("عدد دوم را وارد کنید :")
         return NUM2
     else:
@@ -117,6 +117,10 @@ conv_handler = ConversationHandler(
 
 app.add_handler(conv_handler)
 
+
+app.add_handler(
+    CallbackQueryHandler(get_op)
+)
 
 print("ربات روشن شد...")
 app.run_polling()
