@@ -30,8 +30,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if "tasks" not in context.user_data:
               context.user_data["tasks"] = []
 
-        await update.message.reply_text(" ",reply_markup=markup)
-
+        await update.message.reply_text(
+              "یک گزینه انتخاب کن:",
+              reply_markup=markup
+              )
 
 
 
