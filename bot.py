@@ -18,7 +18,7 @@ TOKEN = "8721747745:AAF5r6fJdxKheM4DKgNKKsg2WMMIoquNJ34"
 GET_NAME, GET_AGE, GET_COURSE, GET_NEW_PROFILE, GET_NEW_NAME, GET_NEW_AGE, GET_NEW_COURSE = range(7)
 
 keyboard = [
-    [KeyboardButton("ثبت‌نام")],
+    [KeyboardButton("ثبت")],
     [KeyboardButton("مشاهده اطلاعات من")],
     [KeyboardButton("ویرایش اطلاعات"),
      KeyboardButton("حذف اطلاعات")]
@@ -290,7 +290,7 @@ app = ApplicationBuilder().token(TOKEN).build()
 set_profile = ConversationHandler(
     entry_points=[
         MessageHandler(
-            filters.Regex("^ثبتنام$"),
+            filters.Regex("^ثبت$"),
             start_registration
         )
     ],
